@@ -47,7 +47,8 @@ app.use('/news', newsRoute);
 app.use('/announcements', announcementsRoute);
 
 //Set port
-app.listen(3000,() => console.log("SERVER UP AND RUNNING"));
+const port = process.env.PORT || 3000;
+app.listen(port,() => console.log("SERVER UP AND RUNNING"));
 
 //Routes
 app.get('/',(req,res) => {
