@@ -1,22 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const imageSchema = new Schema({
-    url: {
-        type: String,
-    },
-    filename: {
-        type: String
-    }
-})
-
-imageSchema.virtual('thumbnail').get(function() {
-    return this.url.replace('/upload','/upload/w_500')
-})
+const imageSchema = require('./schema/image')
 
 const eventSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        maxlength: 255
     },
     description: {
         type: String,
@@ -41,9 +31,16 @@ const eventSchema = new Schema({
     },
     location: {
         type: String,
+        default: ""
     },
-    cover_img: imageSchema,
-    images: [ imageSchema ],
+    cover_img: {
+        type: imageSchema,
+        default: () => ({})
+    },
+    images: [{
+        type: imageSchema,
+        default: () => ({})
+    }],
     member_amount: {
         type: Number,
     },
@@ -68,6 +65,12 @@ const eventSchema = new Schema({
     }
     
 }, {
+    toObject: {
+        getters: true
+    },
+    toJSON : {
+        getters: true
+    },
     timestamps: true
 })
 
@@ -75,6 +78,6 @@ eventSchema.virtual('current_member').get(function() {
     return this.member_list.length
 })
 
-eventSchema.set('toObject', { virtuals: true })
+eventSchema.set('toObject', { getters: true })
 
 module.exports = mongoose.model("Event",eventSchema)

@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const announcements = require('../controllers/announcements')
 const wrapAsync = require('../utils/wrapAsync')
-const { authenticateUser } = require('../utils/middleware')
+const { isLoggedIn } = require('../utils/middleware')
 
-router.get('/', authenticateUser, wrapAsync(announcements.index))
+router.get('/', isLoggedIn, wrapAsync(announcements.index))
 
-router.get('/:id', authenticateUser, wrapAsync(announcements.getAnnouncement))
+router.get('/:id', isLoggedIn, wrapAsync(announcements.getAnnouncement))
 
 module.exports = router

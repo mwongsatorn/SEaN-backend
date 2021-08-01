@@ -12,7 +12,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'S-A-M',
+        folder: '/S-E-a-N/uploads',
         allowed_formats: ['jpg', 'jpeg', 'png', 'gif']
     }
 })

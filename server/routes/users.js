@@ -1,35 +1,29 @@
 const router = require('express').Router();
 const users = require('../controllers/users')
 const wrapAsync = require('../utils/wrapAsync')
-const { authenticateUser } = require('../utils/middleware')
-const multer = require('multer')
+const { isLoggedIn } = require('../utils/middleware')
+const multer = require('multer');
 const { storage } = require('../utils/cloudinary')
-const upload = multer({ storage })
+const parser = multer({ storage })
 
-//Register
 router.post('/register', wrapAsync(users.register))
 
-//Login
 router.post('/login', wrapAsync(users.login))
 
-//Get/Edit profile
 router.route('/profile')
-    .get(authenticateUser , wrapAsync(users.getProfile))
-    .put(authenticateUser , wrapAsync(users.editProfile))
+    .get(isLoggedIn, wrapAsync(users.getMyProfile))
+    .put(isLoggedIn, parser.single('profile_img'), wrapAsync(users.editMyProfile))
 
-//Get all of participated activities history from user
-router.get('/history/activities/participated', authenticateUser, wrapAsync(users.getParticipatedActs))
+router.get('/profile/:id', isLoggedIn, wrapAsync(users.getTheirProfile))
 
-//Get all of recruitment activities history from user
-router.get('/history/activities/recruited', authenticateUser, wrapAsync(users.getRecruitedActs))
+router.get('/history/events/participated', isLoggedIn, wrapAsync(users.getParticipatedEvents))
 
-router.get('/history/activities/upcoming', authenticateUser, wrapAsync(users.getUpcomingActs))
+router.get('/history/events/recruited', isLoggedIn, wrapAsync(users.getRecruitedEvents))
 
-//Get all of news history from user
-router.get('/history/news', authenticateUser, wrapAsync(users.getNews))
 
-//Logout
-router.delete('/logout', wrapAsync(users.logout))
+router.get('/history/news', isLoggedIn, wrapAsync(users.getNews))
+
+router.delete('/logout', isLoggedIn, wrapAsync(users.logout))
 
 
 

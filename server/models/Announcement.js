@@ -17,11 +17,17 @@ const announcementSchema = new Schema({
     },
     cover_img: {
         type: String
-    },//No Image for ann
+    },
     images: [{
         type: String
     }]
 }, {
+    toObject: {
+        getters: true
+    },
+    toJSON: {
+        getters: true
+    },
     timestamps: true
 })
 

@@ -1,18 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const imageSchema = new Schema({
-    url: {
-        type: String,
-    },
-    filename: {
-        type: String
-    }
-})
-
-imageSchema.virtual('thumbnail').get(function() {
-    return this.url.replace('/upload','/upload/w_500')
-})
+const imageSchema = require('./schema/image')
 
 const newsSchema = new Schema({
     title: {
@@ -32,7 +21,10 @@ const newsSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    cover_img: imageSchema,
+    cover_img: {
+        type: imageSchema,
+        default: () => ({})
+    },
     images: [ imageSchema ],
     status: {
         type: String,
@@ -49,6 +41,12 @@ const newsSchema = new Schema({
         default: ''
     }   
 }, {
+    toObject: {
+        getters: true
+    },
+    toJSON: {
+        getters: true
+    },
     timestamps: true
 })
 

@@ -1,76 +1,64 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const historySchema = new Schema({
-    event: {
-        participated: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Activity'
-        }],
-        recruited: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Activity'
-        }],
-    },
-    news: [{
-        type: Schema.Types.ObjectId,
-        ref: 'News'
-    }]      
-})
+const historySchema = require('./schema/history')
+const imageSchema = require('./schema/image')
 
 const userSchema = new Schema({
     username: {
         type: String,
-        required: true,
         minlength: 8,
+        maxlength: 255,
         unique: true,
     },
     password: {
         type: String,
-        required: true,
         minlength: 8,
+        maxlength: 255,
     },
     firstname: {
         type: String,
-        required: true,
+        maxlength: 255,
     },
     lastname: {
         type: String,
-        required: true,
+        maxlength: 255,
     },
     email: {
         type: String,
-        required: true,
         unique: true,
+        maxlength: 255,
     },
     status_id: {
         type: String,
-        required: true,
+        maxlength: 255,
     },
     status: {
         type: String,
         enum: ['Student','Staff'],
-        required: true
     },
     faculty: {
         type: String,
-        required: true,
-        default: '-'
+        default: '-',
+        maxlength: 255,
     },
     department: {
         type: String,
-        required: true,
-        default: '-'
+        default: '-',
+        maxlength: 255,
     },
     tel_no: {
         type: String,
-        required: true,
+        maxlength: 255,
     },
     profile_img: {
-        type: String,
-        default: 'https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png'
+        type: imageSchema,
+        default: () => ({url: 'https://i.stack.imgur.com/l60Hf.png'})
     },
-    history: historySchema,
+    history: {
+        type: historySchema,
+        default: () => ({})
+    },
     role: {
         type: String,
         default: "User",
@@ -79,6 +67,12 @@ const userSchema = new Schema({
         type: String,
     }
 }, {
+    toObject: {
+        getters: true
+    },
+    toJSON: {
+        getters: true
+    },
     timestamps: true,
 });
 

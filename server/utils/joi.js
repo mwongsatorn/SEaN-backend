@@ -26,6 +26,7 @@ const eventSchema = Joi.object({
     end_date: Joi.date(),
     member_amount: Joi.number(),
     location: Joi.string(),
+    cover_img: Joi.string(),
 })
 
 const newsSchema = Joi.object({
@@ -34,11 +35,15 @@ const newsSchema = Joi.object({
     short_description: Joi.string(),
     approvedBy: Joi.string(),
     comment: Joi.string(),
+    cover_img: Joi.string(),
 })
 
 const announcementSchema = Joi.object({
     title: Joi.string(),
-    description: Joi.string()
+    description: Joi.string(),
+    cover_img: Joi.number(),
+    status: Joi.string(),
+    comment: Joi.string(),
 })
 
 module.exports = {

@@ -3,24 +3,20 @@ const admin = require('../controllers/admin')
 const {isLoggedIn, isAdmin} = require('../utils/middleware')
 const wrapAsync = require('../utils/wrapAsync')
 
-// Get all of unverified activities
-router.get('/activities', isLoggedIn, isAdmin, wrapAsync(admin.pendingActivities))
+router.get('/events/', isLoggedIn, isAdmin, wrapAsync(admin.pendingEvents))
 
-// Get/Verify/Reject a unverified activities
-router.route('/activities/:id')
-    .post(isLoggedIn, isAdmin, wrapAsync(admin.checkActivity))
+router.route('/events/:id')
+    .post(isLoggedIn, isAdmin, wrapAsync(admin.changeEventStatus))
 
-// Get all of unverified news
 router.get('/news', isLoggedIn, isAdmin, wrapAsync(admin.pendingNews))
 
-// Get//Verify/Reject a unverified news
 router.route('/news/:id')
     .post(isLoggedIn, isAdmin, wrapAsync(admin.checkNews))
 
 router.post('/announcements', isLoggedIn, isAdmin, wrapAsync(admin.createAnnouncement))
 
 router.route('/announcements/:id')
-    .put(isLoggedIn, isAdmin, wrapAsync(admin.editAnnouncement))
+    .put(isLoggedIn, isAdmin, wrapAsync(admin.updateAnnouncement))
     .delete(isLoggedIn, isAdmin, wrapAsync(admin.deleteAnnouncement))
 
 module.exports = router
