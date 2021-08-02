@@ -6,11 +6,11 @@ const historySchema = new Schema({
     events: {
         participated: [{
             type: Schema.Types.ObjectId,
-            ref: 'Activity'
+            ref: 'Event'
         }],
         recruited: [{
             type: Schema.Types.ObjectId,
-            ref: 'Activity'
+            ref: 'Event'
         }],
     },
     news: [{

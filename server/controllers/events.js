@@ -67,6 +67,7 @@ module.exports.updateEvent = async (req, res) => {
         runValidators: true
     })
     if(!foundEvent) throw new errorHandler('Something went wrong', 500)
+    if(foundEvent.status == 'Rejected') foundEvent.status = 'Pending'
     if(req.files.images) {
         await foundEvent.images.forEach(image => cloudinary.uploader.destroy(image.filename))
         foundEvent.images = req.files.images.map(image => ({url: image.path, filename: image.filename}))

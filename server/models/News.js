@@ -6,19 +6,15 @@ const imageSchema = require('./schema/image')
 const newsSchema = new Schema({
     title: {
         type: String,
-        required: true
     },
     description: {
         type: String,
-        required: true
     },
     short_description: {
         type: String,
-        required: true
     },
     createdBy: {
         type: Schema.Types.ObjectId,
-        required: true,
         ref: 'User'
     },
     cover_img: {

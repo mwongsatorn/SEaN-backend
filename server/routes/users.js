@@ -12,7 +12,7 @@ router.post('/login', wrapAsync(users.login))
 
 router.route('/profile')
     .get(isLoggedIn, wrapAsync(users.getMyProfile))
-    .put(isLoggedIn, parser.single('profile_img'), wrapAsync(users.editMyProfile))
+    .put(isLoggedIn, parser.single('profile_img'), wrapAsync(users.updateMyProfile))
 
 router.get('/profile/:id', isLoggedIn, wrapAsync(users.getTheirProfile))
 
@@ -21,7 +21,7 @@ router.get('/history/events/participated', isLoggedIn, wrapAsync(users.getPartic
 router.get('/history/events/recruited', isLoggedIn, wrapAsync(users.getRecruitedEvents))
 
 
-router.get('/history/news', isLoggedIn, wrapAsync(users.getNews))
+router.get('/history/news', isLoggedIn, wrapAsync(users.getNewsHistory))
 
 router.delete('/logout', isLoggedIn, wrapAsync(users.logout))
 

@@ -11,12 +11,12 @@ router.route('/events/:id')
 router.get('/news', isLoggedIn, isAdmin, wrapAsync(admin.pendingNews))
 
 router.route('/news/:id')
-    .post(isLoggedIn, isAdmin, wrapAsync(admin.checkNews))
+    .post(isLoggedIn, isAdmin, wrapAsync(admin.changeNewsStatus))
 
-router.post('/announcements', isLoggedIn, isAdmin, wrapAsync(admin.createAnnouncement))
+router.post('/announcements', isLoggedIn, isAdmin, parser.fields([{name: 'images'},{name: 'cover_img'}]), wrapAsync(admin.createAnnouncement))
 
 router.route('/announcements/:id')
-    .put(isLoggedIn, isAdmin, wrapAsync(admin.updateAnnouncement))
+    .put(isLoggedIn, isAdmin, parser.fields([{name: 'images'},{name: 'cover_img'}]), wrapAsync(admin.updateAnnouncement))
     .delete(isLoggedIn, isAdmin, wrapAsync(admin.deleteAnnouncement))
 
 module.exports = router

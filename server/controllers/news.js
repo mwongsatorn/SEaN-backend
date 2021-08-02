@@ -25,9 +25,10 @@ module.exports.createNews = async (req, res) => {
         newNews.cover_img.url = req.files.cover_img[0].path
         newNews.cover_img.filename = req.files.cover_img[0].filename
     }
+    newNews.createdBy = req.user._id
     await newNews.save();
     const updatedUser = await User.updateOne({_id: req.user._id},{
-        $push: { 'history.news': news._id }
+        $push: { 'history.news': newNews._id }
     })
     if(updatedUser.nModified == 0) throw new errorHandler('Something went wrong', 500)
     res.end()
@@ -52,6 +53,7 @@ module.exports.updateNews = async (req, res) => {
         runValidators: true
     })
     if(!foundNews) return new errorHandler('You do not have permission to edit this news', 401)
+    if(foundNews.status == 'Rejected') foundEvent.status = 'Pending'
     if(req.files.images) {
         await foundNews.images.forEach(image => cloudinary.uploader.delete(image.filename))
         foundNews.images = req.files.images.map(image => ({url: image.path, filename: image.filename}))
@@ -73,7 +75,7 @@ module.exports.deleteNews = async (req, res) => {
     await foundNews.images.forEach(image => cloudinary.uploader.destroy(image.filename))
     await cloudinary.uploader.destroy(foundNews.cover_img.filename)
     const updatedUser = await User.updateOne({_id: req.user._id},{
-        $pull: { 'history.news': news._id }
+        $pull: { 'history.news': foundNews._id }
     })
     if(updatedUser.nModified == 0) throw new errorHandler('Something went wrong', 500)
     res.end()
