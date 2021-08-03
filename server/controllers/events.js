@@ -117,7 +117,7 @@ module.exports.cancelEvent = async (req,res) => {
     const { id } = req.params
     const foundUser = await User.findOneAndUpdate({
         _id: req.user._id,
-        'history.events.participated': { $in: id }
+        'history.events.participated': id
     },{
         $pull: { 'history.events.participated': id }
     })

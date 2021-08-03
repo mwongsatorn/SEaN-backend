@@ -1,7 +1,11 @@
 const router = require('express').Router();
 const admin = require('../controllers/admin')
+const multer = require('multer');
+const { storage } = require('../utils/cloudinary')
+const parser = multer({ storage })
 const {isLoggedIn, isAdmin} = require('../utils/middleware')
 const wrapAsync = require('../utils/wrapAsync')
+
 
 router.get('/events/', isLoggedIn, isAdmin, wrapAsync(admin.pendingEvents))
 

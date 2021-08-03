@@ -13,9 +13,9 @@ module.exports.getMyProfile = async (req,res) => {
 module.exports.updateMyProfile = async (req,res) => {
     const { _id } = req.user;
     const foundUser = await User.findByIdAndUpdate(_id, req.body)
-    if(req.file.profile_img) {
-        foundUser.profile_img.url = req.file.profile_img.path
-        foundUser.profile_img.filename = req.file.profile_img.filename
+    if(req.file) {
+        foundUser.profile_img.url = req.file.path
+        foundUser.profile_img.filename = req.file.filename
     }
     await foundUser.save()
     res.end()

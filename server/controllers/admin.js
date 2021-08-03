@@ -46,7 +46,7 @@ module.exports.changeNewsStatus = async (req,res) => {
 
 module.exports.createAnnouncement = async (req,res) => {
     const newAnn = new Announcement({
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         createdBy: req.user._id,
     })
