@@ -53,7 +53,7 @@ const userSchema = new Schema({
     },
     profile_img: {
         type: imageSchema,
-        default: () => ({url: 'https://i.stack.imgur.com/l60Hf.png'})
+        default: () => ({url: 'https://res.cloudinary.com/dgizzny4y/image/upload/v1628008702/S-E-a-N/default/profile_img_k5vcfw.jpg'})
     },
     history: {
         type: historySchema,

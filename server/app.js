@@ -16,7 +16,6 @@ const dbOptions = { useNewUrlParser: true,
     useFindAndModify: false, 
     useCreateIndex: true
 }
-const corsOptions = { credentials: true }
 
 //Database connections
 mongoose.connect(process.env.DB_CONNECT, dbOptions)
@@ -28,9 +27,9 @@ mongoose.connect(process.env.DB_CONNECT, dbOptions)
     })
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
 
 //Import routes
 const usersRoute = require('./routes/users');
