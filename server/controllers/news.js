@@ -55,10 +55,10 @@ module.exports.updateNews = async (req, res) => {
     if(!foundNews) return new errorHandler('You do not have permission to edit this news', 401)
     if(foundNews.status == 'Rejected') foundEvent.status = 'Pending'
     if(req.files.images) {
-        await foundNews.images.forEach(image => cloudinary.uploader.delete(image.filename))
+        await foundNews.images.forEach(image => cloudinary.uploader.destroy(image.filename))
         foundNews.images = req.files.images.map(image => ({url: image.path, filename: image.filename}))
     }
-    if(isDefaultCover(foundNews.cover_img.filename) === false) await cloudinary.uploader.delete(foundNews.cover_img.filename)
+    if(isDefaultCover(foundNews.cover_img.filename) === false) await cloudinary.uploader.destroy(foundNews.cover_img.filename)
     if (req.body.cover_img) newNews.cover_img = selectDefaultCover(req.body.cover_img)
     if(req.files.cover_img) {
         foundNews.cover_img.url = req.files.cover_img[0].path
