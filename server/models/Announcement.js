@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const imageSchema = require('./schema/image')
+
 const announcementSchema = new Schema({
     title: {
         type: String,
@@ -16,10 +18,12 @@ const announcementSchema = new Schema({
         ref: 'User'
     },
     cover_img: {
-        type: String
+        type: imageSchema,
+        default: () => ({})
     },
     images: [{
-        type: String
+        type: imageSchema,
+        default: () => ({})
     }]
 }, {
     toObject: {
