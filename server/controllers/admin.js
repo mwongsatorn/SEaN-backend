@@ -70,7 +70,7 @@ module.exports.updateAnnouncement = async (req,res) => {
         foundAnn.images.forEach(async image => await cloudinary.uploader.destroy(image.filename))
         foundAnn.images = req.files.images.map(image => ({url: image.path, filename: image.filename}))
     }
-    if(isDefaultCover(foundEvent.cover_img.filename) == false) await cloudinary.uploader.destroy(foundEvent.cover_img.filename)
+    if(isDefaultCover(foundAnn.cover_img.filename) == false) await cloudinary.uploader.destroy(foundAnn.cover_img.filename)
     if(req.body.cover_img) foundAnn.cover_img = selectDefaultCover(req.body.cover_img)
     if(req.files.cover_img) {
         foundAnn.cover_img.url = req.files.cover_img[0].path
