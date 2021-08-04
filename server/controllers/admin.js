@@ -3,6 +3,8 @@ const News = require('../models/News');
 const Announcement = require('../models/Announcement');
 const errorHandler = require('../utils/errorHandler')
 const { selectDefaultCover } = require('../utils/selectDefaultCover')
+const { isDefaultCover } = require('../utils/isDefaultCover')
+const { cloudinary } = require('../utils/cloudinary')
 
 module.exports.pendingEvents = async (req,res) => {
     const foundEvents = await Event.find({status: 'Pending'})
